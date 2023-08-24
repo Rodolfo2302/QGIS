@@ -1,0 +1,27 @@
+from qgis.core import QgsFeatureRequest
+from qgis.utils import iface
+from qgis.gui import QgsMapTool
+
+class SelectFeatureTool(QgsMapTool):
+    def __init__(self, canvas):
+        super().__init__(canvas)
+        self.canvas = canvas
+    
+    def canvasReleaseEvent(self, event):
+        map_point = self.toMapCoordinates(event.pos())
+        selected_layer = iface.activeLayer()
+        
+        if selected_layer:
+            try:
+                features = selected_layer.getFeatures(QgsFeatureRequest())
+                for feature in features:
+                    geom = feature.geometry()
+                    if geom.contains(map_point):
+                        iface.messageBar().pushMessage("Información", "¡Elemento seleccionado!", level=Qgis.Info)
+                        break
+            except Exception as e:
+                iface.messageBar().pushMessage("Error", f"Ocurrió un error: {str(e)}", level=Qgis.Warning)
+
+canvas = iface.mapCanvas()
+select_tool = SelectFeatureTool(canvas)
+canvas.setMapTool(select_tool)

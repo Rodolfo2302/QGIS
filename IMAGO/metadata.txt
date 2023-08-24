@@ -1,0 +1,11 @@
+[general]
+name=IMAGO
+description=Open IMAGO link.
+version=1.1
+qgisMinimumVersion=3.0
+author=José Rodolfo Vazquez Mazón
+email=rodolfovazquex@gmail.com
+repository=URL_del_repositorio (opcional)
+icon=icon.png
+[ui]
+icon=icon.png
